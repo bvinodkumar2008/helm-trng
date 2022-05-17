@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: helloworld
+  template:
+    metadata:
+      labels:
+        app: helloworld
+    spec:
+      containers:
+        - name: arjun-nginx
+          image: nginx
+          ports:
+            - name: nodejs-port
+              containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: nodejs-port
+            initialDelaySeconds: 15
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: nodejs-port
+            initialDelaySeconds: 15
+            timeoutSeconds: 30
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloworld-service
+spec:
+  ports:
+    - port: 31001
+      nodePort: 31003
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: helloworld
+  type: NodePort

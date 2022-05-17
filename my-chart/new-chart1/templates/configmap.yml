@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+  {{- include "new-chart.systemlabels" $  }}
+data:
+  myvalue: "Sample Config Map"
+  costCode: {{ .Values.costCode }}
+  zone: {{ quote .Values.infra.zone }}
+  region: {{ lower .Values.infra.region }}
+  projectCode: {{ upper .Values.projectCode }}
+  now: {{ now | date "2006-01-02" | quote }}
+  pipeline: {{ .Values.projectCode | upper | quote }}
+  contact: {{ .Values.contact | default "9999999999" | quote }}
+  number: {{ .Values.contact | quote}}
+  {{ if eq .Values.infra.region "us-east-1" }}HA: true{{ end }}
+  {{- if eq .Values.infra.region "us-west-1" -}}
+       HA-WEST: true
+  {{- end -}}
+  {{- with .Values.tags }}
+  machine: {{ .machine }}
+  rack: {{ .rack | quote }}
+  drive: {{ .drive}}
+  {{- end -}}
+  {{- range $i, $val := .Values.langs }}
+    - {{ . | title | quote }}
+  {{ end -}}
+  {{- $relname := .Release.Name -}}
+  {{- with .Values.tags }}
+  Machine Type: {{ .machine | default "NA" | quote }}
+  Rack ID: {{ .rack | quote }}
+  Storage Type: {{ .drive | upper | quote }}
+  Release: {{ $relname }}
+  {{- end }}

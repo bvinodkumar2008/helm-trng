@@ -1,0 +1,17 @@
+costCode: 13121DD
+projectCode: project34
+infra:
+  zone: a,b,c
+  region: us-east-1
+contact: 12
+tags:
+  machine: micro
+  drive: ssd
+  rack: 4b
+  # dict: "name1" "value1" "name2" "value2" "name3" "value 3"
+langs:
+  - python
+  - cpp
+  - golang
+mysubchart:
+  dbhostname: mysqlnode2

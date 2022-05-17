@@ -1,0 +1,4 @@
+Test chart
+
+Release name : {{ .Release.Name }}
+Chart name: {{ .Chart.Name }}

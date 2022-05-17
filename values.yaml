@@ -1,0 +1,4 @@
+mariadb:
+  auth: 
+    database: "vinod-db"
+    username: "vinod"
